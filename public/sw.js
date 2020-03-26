@@ -1,4 +1,4 @@
-var VERSION = 3;
+var VERSION = 4;
 var cacheName = 'cv19-v' + VERSION;
 
 var filesToCache = [
@@ -20,6 +20,8 @@ self.addEventListener('install', function(event) {
     caches.open(cacheName).then(function(cache) {
       console.log('Service Worker: Caching app files...');
       return cache.addAll(filesToCache);
+    }).then(function() {
+      return self.skipWaiting();
     })
   );
 });
@@ -38,6 +40,7 @@ self.addEventListener('activate', function(event) {
       }));
     })
   );
+  return self.clients.claim();
 });
 
 
