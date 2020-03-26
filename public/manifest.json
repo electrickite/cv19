@@ -1,0 +1,19 @@
+{
+  "name": "COVID-19 in Ohio",
+  "short_name": "COVID-19 Ohio",
+  "description": "Tracks cases of COVID-19 in the state of Ohio",
+  "start_url": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "./img/icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ],
+  "author": {
+    "name": "Corey Hinshaw",
+    "website": "https://electrickite.org/cv19/"
+  }
+}

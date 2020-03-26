@@ -1,0 +1,2 @@
+<?php
+$dsn = 'sqlite:/path/to/db.sqlite';
