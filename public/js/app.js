@@ -29,9 +29,51 @@ if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').match
   };
 }
 
+function createTable(type) {
+  var statTypes = ['Cases', 'Deaths'];
+  var i, j;
+  var table = document.createElement('table');
+
+  var caption = document.createElement('caption');
+  caption.textContent = type + ' counts';
+  table.appendChild(caption);
+  var headerRow = document.createElement('tr');
+  var th = document.createElement('td');
+  headerRow.appendChild(th);
+  for (i = 0; i < statTypes.length; i++) {
+    th = document.createElement('th');
+    th.textContent = statTypes[i];
+    th.setAttribute('scope', 'col');
+    headerRow.appendChild(th);
+  }
+  table.appendChild(headerRow);
+
+  for (i = 0; i < data.labels.length; i++) {
+    var row = document.createElement('tr');
+    var th = document.createElement('th');
+    th.setAttribute('scope', 'row');
+    th.textContent = data.labels[i];
+    row.appendChild(th);
+
+    for (j = 0; j < statTypes.length; j++) {
+      var statType = statTypes[j].toLowerCase();
+      var td = document.createElement('td');
+      td.textContent = data[type][statType][i];
+      row.appendChild(td);
+    }
+    table.appendChild(row);
+  }
+
+  return table;
+}
 
 function createChart() {
-  var ctx = document.getElementById('chart').getContext('2d');
+  var canvas = document.getElementById('chart');
+  canvas.textContent = '';
+  canvas.appendChild(createTable('total'));
+  canvas.appendChild(createTable('new'));
+
+  var ctx = canvas.getContext('2d');
   chart = new Chart(ctx, {
     type: 'line',
     data: {
