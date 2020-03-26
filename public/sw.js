@@ -1,4 +1,4 @@
-var VERSION = 2;
+var VERSION = 3;
 var cacheName = 'cv19-v' + VERSION;
 
 var filesToCache = [
@@ -7,6 +7,7 @@ var filesToCache = [
   './stats.php',
   './js/Chart.min.js',
   './js/app.js',
+  './css/style.css',
   './img/icon-180x180.png',
   './img/icon-192x192.png'
 ];

@@ -6,6 +6,9 @@ if ('serviceWorker' in navigator) {
   });
 }
 
+var data;
+var chart;
+var dataType = localStorage.getItem('dataType') || 'total';
 
 var colors = {
   labels: '#666',
@@ -27,34 +30,22 @@ if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').match
 }
 
 
-fetch('stats.php')
-.then(function(res) {
-  return res.json();
-}).then(function(data) {
-  if (! Array.isArray(data)) { return; }
-
+function createChart() {
   var ctx = document.getElementById('chart').getContext('2d');
-  var myChart = new Chart(ctx, {
+  chart = new Chart(ctx, {
     type: 'line',
     data: {
-      labels: data.map(function(day) {
-        var date = new Date(day.date);
-        return (date.getUTCMonth() + 1) + '/' + date.getUTCDate();
-      }),
+      labels: data.labels,
       datasets: [{
         label: 'Cases',
         borderColor: colors.data1Border,
         backgroundColor: colors.data1Background,
-        data: data.map(function(day) {
-          return day.cases;
-        })
+        data: data[dataType].cases
       },{
         label: 'Deaths',
         borderColor: colors.data2Border,
         backgroundColor: colors.data2Background,
-        data: data.map(function(day) {
-          return day.deaths;
-        })
+        data: data[dataType].deaths
       }]
     },
     options: {
@@ -62,6 +53,9 @@ fetch('stats.php')
         labels: {
           fontColor: colors.labels
         }
+      },
+      tooltips: {
+        mode: 'x'
       },
       scales: {
         yAxes: [{
@@ -84,4 +78,70 @@ fetch('stats.php')
       }
     }
   });
+}
+
+function updateDataType(type) {
+  dataType = type;
+  localStorage.setItem('dataType', type);
+
+  if (!chart) { return; }
+  chart.data.datasets[0].data = data[dataType].cases;
+  chart.data.datasets[1].data = data[dataType].deaths;
+  chart.update();
+}
+
+function calculateNew(type, day, index, array) {
+  if (index == 0) {
+    return day[type];
+  } else {
+    return Math.max(day[type] - array[index - 1][type], 0);
+  }
+}
+
+function prepareData(data) {
+  return {
+    labels: data.map(function(day) {
+      var date = new Date(day.date);
+      return (date.getUTCMonth() + 1) + '/' + date.getUTCDate();
+    }),
+    total: {
+      cases: data.map(function(day) {
+        return day.cases;
+      }),
+      deaths: data.map(function(day) {
+        return day.deaths;
+      })
+    },
+    new: {
+      cases: data.map(function(day, index) {
+        return calculateNew('cases', day, index, data);
+      }),
+      deaths: data.map(function(day, index) {
+        return calculateNew('deaths', day, index, data);
+      })
+    }
+  };
+}
+
+
+document.querySelectorAll('input[name="dataToggle"]').forEach(function(input) {
+  if (input.value == dataType) {
+    input.checked = true;
+  }
+  input.addEventListener('change', function() {
+    updateDataType(this.value);
+  });
+});
+
+
+fetch('stats.php')
+.then(function(res) {
+  return res.json();
+}).then(function(fetchedData) {
+  if (! Array.isArray(fetchedData)) {
+    console.log('Error fetching data!');
+    return;
+  }
+  data = prepareData(fetchedData);
+  createChart();
 });

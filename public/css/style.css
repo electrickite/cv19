@@ -1,0 +1,77 @@
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  font-family: Sans-Serif;
+  background-color: #eee;
+  color: #000;
+}
+
+.chart-wrapper {
+  max-width: 680px;
+}
+
+.button-group {
+  clear: both;
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.button-group input {
+  position: absolute;
+  left: -9999em;
+  top: -9999em;
+}
+.button-group input + label {
+  float: left;
+  padding: .5em 1em;
+  cursor: pointer;
+  border: 1px solid #999;
+  margin-right: -1px;
+  color: #444;
+  background-color: #ddd;
+  display: block;
+  width: 50%;
+  text-align: center;
+  font-size: 0.8em;
+}
+.button-group input + label:first-of-type {
+  border-radius: .3em 0 0 .3em;
+}
+.button-group input + label:last-of-type {
+  border-radius: 0 .3em .3em 0;
+}
+.button-group input:checked + label {
+  background-color: #ccc;
+}
+
+@media only screen and (max-width: 680px) {
+  h1 {
+    text-align: center;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #111;
+    color: #eee;
+  }
+
+  .button-group input + label {
+    border-color: #666;
+    color: #bbb;
+    background-color: #222;
+  }
+
+  .button-group input:checked + label {
+    background-color: #333;
+  }
+}

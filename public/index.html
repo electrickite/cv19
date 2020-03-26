@@ -5,24 +5,23 @@
   <title>COVID-19 in Ohio</title>
   <meta name="viewport" content= "width=device-width, initial-scale=1.0">
 
-  <link rel="icon" type="image/png" href="img/icon-180x180.png" />
-  <link rel="apple-touch-icon" sizes="180x180" href="img/icon-180x180.png">
   <link rel="manifest" href="manifest.json">
-
-  <style>
-    body { font-family:Sans-Serif; background:#eee; color:#000; }
-    .chart-wrapper { max-width:680px; }
-
-    @media (prefers-color-scheme: dark) {
-      body { background:#111; color:#fff; }
-    }
-  </style>
+  <link rel="icon" type="image/png" href="img/icon-180x180.png" />
+  <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="img/icon-180x180.png">
+  <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 
 <body>
   <h1>COVID-19 in Ohio</h1>
 
   <div class="chart-wrapper">
+    <div class="button-group">
+      <input type="radio" name="dataToggle" value="total" id="totalButton">
+      <label for="totalButton">Total</label>
+      <input type="radio" name="dataToggle" value="new" id="newButton">
+      <label for="newButton">New</label>
+    </div>
+
     <canvas id="chart" width="400" height="300"></canvas>
   </div>
 
