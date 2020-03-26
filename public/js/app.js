@@ -85,6 +85,7 @@ function updateDataType(type) {
   localStorage.setItem('dataType', type);
 
   if (!chart) { return; }
+  chart.data.labels = data.labels;
   chart.data.datasets[0].data = data[dataType].cases;
   chart.data.datasets[1].data = data[dataType].deaths;
   chart.update();
@@ -123,6 +124,24 @@ function prepareData(data) {
   };
 }
 
+function fetchStats() {
+  fetch('stats.php')
+  .then(function(res) {
+    return res.json();
+  }).then(function(fetchedData) {
+    if (! Array.isArray(fetchedData)) {
+      console.log('Error fetching data!');
+      return;
+    }
+    data = prepareData(fetchedData);
+
+    if (chart) {
+      chart.destroy();
+    }
+    createChart();
+  });
+}
+
 
 document.querySelectorAll('input[name="dataToggle"]').forEach(function(input) {
   if (input.value == dataType) {
@@ -133,15 +152,9 @@ document.querySelectorAll('input[name="dataToggle"]').forEach(function(input) {
   });
 });
 
-
-fetch('stats.php')
-.then(function(res) {
-  return res.json();
-}).then(function(fetchedData) {
-  if (! Array.isArray(fetchedData)) {
-    console.log('Error fetching data!');
-    return;
-  }
-  data = prepareData(fetchedData);
-  createChart();
+document.getElementById('refresh').addEventListener('click', function(event) {
+  event.preventDefault();
+  fetchStats();
 });
+
+fetchStats();
