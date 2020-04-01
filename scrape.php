@@ -29,6 +29,7 @@ for ($i = 0; $i < 4; $i++) {
     $end = strpos($html, '</div>', $start);
     $length = $end - $start - $container_length;
     $text = trim(substr($html, $start + $container_length, $length));
+    $text = preg_replace("/[^0-9]/", "", $text);
     $counts[$i] = intval($text);
     $start += 1;
 }
