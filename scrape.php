@@ -1,5 +1,5 @@
 <?php
-$url = 'https://coronavirus.ohio.gov/wps/portal/gov/covid-19/';
+$url = 'https://coronavirus.ohio.gov/wps/portal/gov/covid-19/home';
 $container = '<div class="odh-ads__item-title">';
 
 include dirname(__FILE__) . '/config.php';
