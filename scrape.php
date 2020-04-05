@@ -1,6 +1,6 @@
 <?php
 $url = 'https://coronavirus.ohio.gov/wps/portal/gov/covid-19/home';
-$container = '<div class="odh-ads__item-title">';
+$container = '<div class="stats-cards__number">';
 
 include dirname(__FILE__) . '/config.php';
 date_default_timezone_set('America/New_York');
