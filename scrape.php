@@ -23,7 +23,7 @@ curl_close($ch);
 $counts = [];
 $start = 0;
 
-for ($i = 0; $i < 4; $i++) {
+for ($i = 0; $i < 7; $i++) {
     $container_length = strlen($container);
     $start = strpos($html, $container, $start);
     $end = strpos($html, '</div>', $start);
@@ -46,10 +46,10 @@ $db->exec("CREATE UNIQUE INDEX IF NOT EXISTS
            date_idx ON stats (date)");
 
 $stmt = $db->prepare("UPDATE stats SET cases=?, deaths=? WHERE date=?");
-$stmt->execute([$counts[0], $counts[3], date('Y-m-d')]);
+$stmt->execute([$counts[2], $counts[6], date('Y-m-d')]);
 $stmt = null;
 
 $stmt = $db->prepare("INSERT OR IGNORE INTO stats
                       (date, cases, deaths) VALUES (?, ?, ?)");
-$stmt->execute([date('Y-m-d'), $counts[0], $counts[3]]);
+$stmt->execute([date('Y-m-d'), $counts[2], $counts[6]]);
 $stmt = null;
