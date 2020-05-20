@@ -1,4 +1,4 @@
-var VERSION = 9;
+var VERSION = 10;
 var cacheName = 'cv19-v' + VERSION;
 
 var filesToCache = [

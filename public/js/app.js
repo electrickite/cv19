@@ -153,8 +153,8 @@ function updateDataType(type) {
   chart.data.datasets[1].data = data[dataType].deaths;
   if (chart.data.datasets.length > 2) {
     chart.data.datasets.pop();
-    addCurrentData(chart, data);
   }
+  addCurrentData(chart, data);
 
   chart.update();
 }
