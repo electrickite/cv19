@@ -26,7 +26,7 @@ if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').match
     lines: 'rgba(255, 255, 255, 0.2)',
     data1Border: '#fff',
     data1Background: 'rgba(255, 255, 255, 0.2)',
-    data2Border: '#777',
+    data2Border: '#aaa',
     data2Background: 'rgba(255, 255, 255, 0.2)',
     data3Border: '#ccc',
     data3Background: 'rgba(255, 255, 255, 0.2)'
