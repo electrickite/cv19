@@ -15,8 +15,10 @@ var colors = {
   lines: 'rgba(0, 0, 0, 0.2)',
   data1Border: '#000',
   data1Background: 'rgba(0, 0, 0, 0.2)',
-  data2Border: '#444',
-  data2Background: 'rgba(0, 0, 0, 0.3)'
+  data2Border: '#666',
+  data2Background: 'rgba(0, 0, 0, 0.4)'
+  data3Border: '#333',
+  data3Background: 'rgba(0, 0, 0, 0.3)'
 };
 if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
   colors = {
@@ -24,13 +26,18 @@ if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').match
     lines: 'rgba(255, 255, 255, 0.2)',
     data1Border: '#fff',
     data1Background: 'rgba(255, 255, 255, 0.2)',
-    data2Border: '#aaa',
-    data2Background: 'rgba(255, 255, 255, 0.3)',
+    data2Border: '#777',
+    data2Background: 'rgba(255, 255, 255, 0.4)',
+    data3Border: '#ccc',
+    data3Background: 'rgba(255, 255, 255, 0.3)',
   };
 }
 
 function createTable(type) {
   var statTypes = ['Cases', 'Deaths'];
+  if (type == 'total') {
+    statTypes.push('Current');
+  }
   var i, j;
   var table = document.createElement('table');
 
@@ -74,7 +81,7 @@ function createChart() {
   canvas.appendChild(createTable('new'));
 
   var ctx = canvas.getContext('2d');
-  chart = new Chart(ctx, {
+  var chartConfig = {
     type: 'line',
     data: {
       labels: data.labels,
@@ -119,7 +126,18 @@ function createChart() {
         }]
       }
     }
-  });
+  };
+
+  if (dataType = 'total') {
+    chartConfig.data.datasets.push({
+      label: 'Current',
+      borderColor: colors.data3Border,
+      backgroundColor: colors.data3Background,
+      data: data[dataType].current
+    });
+  }
+
+  chart = new Chart(ctx, chartConfig);
 }
 
 function updateDataType(type) {
@@ -141,6 +159,16 @@ function calculateNew(type, day, index, array) {
   }
 }
 
+function calculateCurrent(day, index, array) {
+  var recoveryDays = 21;
+  if (index < recoveryDays) {
+    return day.cases;
+  } else {
+    var reportedDay = array[index - recoveryDays];
+    return Math.max(day.cases - reportedDay.cases, 0);
+  }
+}
+
 function prepareData(data) {
   return {
     labels: data.map(function(day) {
@@ -150,6 +178,9 @@ function prepareData(data) {
     total: {
       cases: data.map(function(day) {
         return day.cases;
+      }),
+      current: data.map(function(day, index) {
+        return calculateCurrent(day, index, data);
       }),
       deaths: data.map(function(day) {
         return day.deaths;
