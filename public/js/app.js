@@ -16,7 +16,7 @@ var colors = {
   data1Border: '#000',
   data1Background: 'rgba(0, 0, 0, 0.2)',
   data2Border: '#666',
-  data2Background: 'rgba(0, 0, 0, 0.4)'
+  data2Background: 'rgba(0, 0, 0, 0.4)',
   data3Border: '#333',
   data3Background: 'rgba(0, 0, 0, 0.3)'
 };
@@ -29,7 +29,7 @@ if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').match
     data2Border: '#777',
     data2Background: 'rgba(255, 255, 255, 0.4)',
     data3Border: '#ccc',
-    data3Background: 'rgba(255, 255, 255, 0.3)',
+    data3Background: 'rgba(255, 255, 255, 0.3)'
   };
 }
 
