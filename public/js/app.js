@@ -74,6 +74,17 @@ function createTable(type) {
   return table;
 }
 
+function addCurrentData(config, data) {
+  if (dataType == 'total') {
+    config.data.datasets.push({
+      label: 'Current',
+      borderColor: colors.data3Border,
+      backgroundColor: colors.data3Background,
+      data: data[dataType].current
+    });
+  }
+}
+
 function createChart() {
   var canvas = document.getElementById('chart');
   canvas.textContent = '';
@@ -128,15 +139,7 @@ function createChart() {
     }
   };
 
-  if (dataType = 'total') {
-    chartConfig.data.datasets.push({
-      label: 'Current',
-      borderColor: colors.data3Border,
-      backgroundColor: colors.data3Background,
-      data: data[dataType].current
-    });
-  }
-
+  addCurrentData(chartConfig, data);
   chart = new Chart(ctx, chartConfig);
 }
 
@@ -148,6 +151,11 @@ function updateDataType(type) {
   chart.data.labels = data.labels;
   chart.data.datasets[0].data = data[dataType].cases;
   chart.data.datasets[1].data = data[dataType].deaths;
+  if (chart.data.datasets.length > 2) {
+    chart.data.datasets.pop();
+    addCurrentData(chart, data);
+  }
+
   chart.update();
 }
 
